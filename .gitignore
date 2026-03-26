@@ -1,0 +1,48 @@
+# ─── Python ──────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ─── Virtual Environment ────────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+
+# ─── Environment Variables ──────────────────────────────────
+.env
+
+# ─── Data Files (too large for Git) ─────────────────────────
+*.csv
+data/raw/
+data/processed/
+
+# ─── Model Artifacts ────────────────────────────────────────
+*.pkl
+models/
+
+# ─── MLflow ─────────────────────────────────────────────────
+mlflow.db
+mlruns/
+
+# ─── Monitoring ─────────────────────────────────────────────
+monitoring.db
+
+# ─── Jupyter Notebooks ──────────────────────────────────────
+.ipynb_checkpoints/
+
+# ─── IDE / OS ────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ─── Docker ──────────────────────────────────────────────────
+docker-compose.override.yml

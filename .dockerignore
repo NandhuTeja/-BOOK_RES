@@ -1,0 +1,13 @@
+# ─── Docker Ignore ───────────────────────────────────────────
+.git
+.gitignore
+__pycache__
+*.pyc
+.env
+*.ipynb
+.github
+mlflow.db
+monitoring.db
+*.ipynb_checkpoints
+venv/
+.venv/

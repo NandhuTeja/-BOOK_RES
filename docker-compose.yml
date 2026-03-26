@@ -1,0 +1,59 @@
+version: '3.8'
+
+# ═══════════════════════════════════════════════════════════════
+#  AI Book Recommender — Docker Compose
+#  Services: Streamlit App + MLflow Tracking Server
+# ═══════════════════════════════════════════════════════════════
+
+services:
+
+  # ─── Streamlit App ───────────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: book-recommender-app
+    ports:
+      - "8501:8501"
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - monitoring-data:/app/monitoring
+    depends_on:
+      - mlflow
+    restart: unless-stopped
+    networks:
+      - book-rec-network
+
+  # ─── MLflow Tracking Server ─────────────────────────────────
+  mlflow:
+    image: python:3.10-slim
+    container_name: book-recommender-mlflow
+    command: >
+      bash -c "pip install mlflow --quiet &&
+               mlflow server
+               --host 0.0.0.0
+               --port 5000
+               --backend-store-uri sqlite:///mlflow/mlflow.db
+               --default-artifact-root /mlflow/artifacts"
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow-data:/mlflow
+    restart: unless-stopped
+    networks:
+      - book-rec-network
+
+# ─── Volumes ──────────────────────────────────────────────────
+volumes:
+  mlflow-data:
+    driver: local
+  monitoring-data:
+    driver: local
+
+# ─── Network ─────────────────────────────────────────────────
+networks:
+  book-rec-network:
+    driver: bridge
